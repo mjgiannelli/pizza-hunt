@@ -91,7 +91,7 @@ function printComment(comment) {
 function printReply(reply) {
   return `
   <div class="card p-2 rounded bg-secondary">
-    <p>${reply.writtenBy} replied on ${reply.createAt}:</p>
+    <p>${reply.writtenBy} replied on ${reply.createdAt}:</p>
     <p>${reply.replyBody}</p>
   </div>
 `;
@@ -149,9 +149,31 @@ function handleNewReplySubmit(event) {
   }
 
   const formData = { writtenBy, replyBody };
+
+  fetch(`/api/comments/${pizzaId}/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      response.json();
+    })
+    .then(commentResponse => {
+      console.log(commentResponse);
+      location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
-$backBtn.addEventListener('click', function () {
+$backBtn.addEventListener('click', function() {
   window.history.back();
 });
 

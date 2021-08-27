@@ -11,8 +11,6 @@ router
     .delete(removeComment);
 
 // delete a reply
-router
-.route('/:pizzaId/:commentId/:replyId')
-.delete(removeReply);
+router.route('/:pizzaId/:commentId/:replyId').delete(removeReply);
 
 module.exports = router;
